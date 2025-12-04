@@ -302,11 +302,13 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   // Aktif işleri filtrele (silinmemiş olanlar)
   const activeWorks = works.filter(w => !w.isDeleted);
+  // Aktif firmaları filtrele (silinmemiş olanlar)
+  const activeCompanies = companies.filter(c => !c.isDeleted);
 
   return (
     <AppContext.Provider
       value={{
-        companies,
+        companies: activeCompanies, // Sadece aktif firmaları göster (UI için)
         works: activeWorks, // Sadece aktif işleri göster (UI için)
         allWorks: works, // Tüm işler (silinenler dahil) - düzenleme için
         loading,
