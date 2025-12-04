@@ -3,6 +3,7 @@
     "name": "İş Takip",
     "slug": "is-takip",
     "version": "1.0.0",
+    "owner": "miscieh",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -45,6 +46,9 @@
       "eas": {
         "projectId": "16915656-126d-4963-8b75-f457880b1699"
       }
+    },
+    "cli": {
+      "appVersionSource": "remote"
     }
   }
 }

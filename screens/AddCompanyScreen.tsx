@@ -24,16 +24,13 @@ export default function AddCompanyScreen() {
       return;
     }
 
-    await addCompany(companyName.trim());
-    Alert.alert('Başarılı', 'Firma başarıyla eklendi', [
-      {
-        text: 'Tamam',
-        onPress: () => {
-          setCompanyName('');
-          navigation.goBack();
-        },
-      },
-    ]);
+    const result = await addCompany(companyName.trim());
+    if (result.success) {
+      setCompanyName('');
+      navigation.goBack();
+    } else {
+      Alert.alert('Hata', result.message);
+    }
   };
 
   return (
@@ -85,42 +82,42 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   label: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '600',
     color: '#333',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   input: {
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
+    padding: 16,
+    fontSize: 20,
     color: '#333',
     marginBottom: 20,
     backgroundColor: '#fff',
   },
   saveButton: {
     backgroundColor: '#007AFF',
-    paddingVertical: 14,
+    paddingVertical: 16,
     borderRadius: 8,
     marginBottom: 10,
   },
   saveButtonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '600',
     textAlign: 'center',
   },
   cancelButton: {
-    paddingVertical: 14,
+    paddingVertical: 16,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#ddd',
   },
   cancelButtonText: {
     color: '#666',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '600',
     textAlign: 'center',
   },
