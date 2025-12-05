@@ -73,13 +73,13 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    padding: 20,
+    paddingHorizontal: 20,
   },
   form: {
     backgroundColor: '#fff',
     borderRadius: 12,
     padding: 20,
-    marginTop: 20,
+    marginTop: 0,
   },
   label: {
     fontSize: 20,

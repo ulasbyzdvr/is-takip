@@ -92,25 +92,31 @@ export default function PaymentScreen() {
         return message;
     };
 
-    const handleSendWhatsApp = () => {
+    const handleSendWhatsApp = async () => {
         const message = generateWhatsAppMessage();
         if (!message) return;
 
         const encodedMessage = encodeURIComponent(message);
-        const whatsappUrl = `whatsapp://send?text=${encodedMessage}`;
 
-        Linking.canOpenURL(whatsappUrl)
-            .then(supported => {
-                if (supported) {
-                    return Linking.openURL(whatsappUrl);
-                } else {
-                    Alert.alert('Hata', 'WhatsApp yüklü değil');
-                }
-            })
-            .catch(err => {
-                Alert.alert('Hata', 'WhatsApp açılamadı');
-                console.error(err);
-            });
+        // WhatsApp URL'leri - önce native app, sonra web fallback
+        const whatsappUrl = `whatsapp://send?text=${encodedMessage}`;
+        const whatsappWebUrl = `https://wa.me/?text=${encodedMessage}`;
+
+        try {
+            // Önce native WhatsApp uygulamasını açmayı dene
+            await Linking.openURL(whatsappUrl);
+        } catch (nativeError) {
+            // Native uygulama açılamadıysa, web versiyonunu dene
+            try {
+                await Linking.openURL(whatsappWebUrl);
+            } catch (webError) {
+                Alert.alert(
+                    'Hata',
+                    'WhatsApp açılamadı. Lütfen WhatsApp\'ın yüklü olduğundan emin olun.'
+                );
+                console.error('WhatsApp açma hatası:', { nativeError, webError });
+            }
+        }
     };
 
     const renderWorkItem = ({ item }: { item: Work }) => {
@@ -205,7 +211,8 @@ const styles = StyleSheet.create({
     header: {
         backgroundColor: '#fff',
         padding: 20,
-        paddingTop: 60,
+        paddingTop: 20,
+        paddingBottom: 20,
         borderBottomWidth: 1,
         borderBottomColor: '#e0e0e0',
         flexDirection: 'row',
@@ -231,6 +238,7 @@ const styles = StyleSheet.create({
     },
     list: {
         padding: 15,
+        paddingTop: 0,
         paddingBottom: 100,
     },
     workCard: {
